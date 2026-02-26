@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Pacman Game</title>
+ <style>
+   body {
+     background-color: black;
+     color: yellow;
+     font-family: Arial, sans-serif;
+     text-align: center;
+   }
+   canvas {
+     display: block;
+     margin: 20px auto;
+     background-color: black;
+     border: 5px solid yellow;
+   }
+ </style>
+</head>
+<body>
+ <h1>Pacman Game</h1>
+ <canvas id="pacmanCanvas" width="400" height="400"></canvas>
+ <script>
+   const canvas = document.getElementById('pacmanCanvas');
+   const ctx = canvas.getContext('2d');
+   const pacman = {
+     x: 200,
+     y: 200,
+     radius: 20,
+     angleStart: 0.2 * Math.PI,
+     angleEnd: 1.8 * Math.PI,
+     direction: { x: 2, y: 0 },
+   };
+   function drawPacman() {
+     ctx.clearRect(0, 0, canvas.width, canvas.height);
+     // Draw Pacman
+     ctx.beginPath();
+     ctx.arc(pacman.x, pacman.y, pacman.radius, pacman.angleStart, pacman.angleEnd);
+     ctx.lineTo(pacman.x, pacman.y);
+     ctx.fillStyle = 'yellow';
+     ctx.fill();
+     // Move Pacman
+     pacman.x += pacman.direction.x;
+     // Bounce off walls
+     if (pacman.x + pacman.radius > canvas.width || pacman.x - pacman.radius < 0) {
+       pacman.direction.x *= -1;
+       [pacman.angleStart, pacman.angleEnd] = [pacman.angleEnd, pacman.angleStart];
+     }
+   }
+   function gameLoop() {
+     drawPacman();
+     requestAnimationFrame(gameLoop);
+   }
+   gameLoop();
+ </script>
+</body>
+</html>
