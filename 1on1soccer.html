@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ruffle SWF Example</title>
+
+  <!-- Load Ruffle (using the official web build CDN) -->
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+      font-family: sans-serif;
+    }
+    #flash-container {
+      width: 800px;
+      height: 600px;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="flash-container"></div>
+
+  <script>
+    // Ensure Ruffle namespace exists
+    window.RufflePlayer = window.RufflePlayer || {};
+
+    window.addEventListener("load", () => {
+      const ruffle = window.RufflePlayer.newest();
+      const player = ruffle.createPlayer();
+      const container = document.getElementById("flash-container");
+
+      container.appendChild(player);
+
+      // Load your SWF file (place game.swf in the same folder as this HTML)
+      player.load("https://cdn.jsdelivr.net/gh/BinBashBanana/gstore/1on1soccer.swf");
+    });
+  </script>
+</body>
+</html>
