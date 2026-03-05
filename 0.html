@@ -1,219 +1,340 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>tinymath</title>
 
+<link rel="icon" href="data:image/svg+xml,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+<text y='.9em' font-size='90'>🎮</text></svg>">
+
+<meta name="description" content="TinyMath — a clean, fast game hub with 1000+ games.">
+
 <style>
-  body {
-    font-family: Arial, sans-serif;
-  }
+/* ---------------- GLOBAL ---------------- */
+body {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  transition: background 0.3s ease, color 0.3s ease;
+}
 
-  /* Search bar */
-  #searchBarContainer {
-    width: 100%;
-    padding: 15px;
-    background: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
+h1 {
+  margin: 25px 0 10px;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
-  #searchLabel {
-    font-size: 20px;
-    font-weight: bold;
-  }
+/* ---------------- SETTINGS BUTTON (TOP RIGHT) ---------------- */
+.settings-btn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  padding: 10px 16px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 9999;
+}
 
-  #searchInput {
-    width: 300px;
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
+.settings-btn:hover {
+  background: #666;
+}
 
-  /* Button grid */
-  .button-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-    margin: 20px;
-  }
+/* ---------------- SETTINGS PANEL ---------------- */
+#settingsPanel {
+  position: fixed;
+  top: 60px;
+  right: 15px;
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  width: 240px;
+  display: none;
+  z-index: 9999;
+  color: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
 
-  .fetch-btn {
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-family: Arial, sans-serif;
-  }
+#settingsPanel h3 {
+  margin-top: 0;
+  font-size: 20px;
+}
 
-  /* FIXED button size */
-  .fetch-btn img {
-    width: 140px;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 8px;
-  }
+.color-input {
+  width: 100%;
+  margin-top: 10px;
+}
 
-  /* FIXED label height */
-  .fetch-btn .label {
-    margin-top: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    height: 28px; /* SAME HEIGHT ALWAYS */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-  }
+.theme-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #333;
+  color: white;
+}
 
-  /* Overlay */
-  #overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000;
-    color: white;
-    overflow-y: auto;
-    display: none;
-    z-index: 9999;
-    padding: 20px;
-  }
+.theme-btn:hover {
+  background: #555;
+}
 
-  /* Overlay buttons */
-  #closeBtn, #fullscreenBtn, #blankBtn {
-    position: fixed;
-    top: 15px;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 10000;
-    font-family: Arial, sans-serif;
-  }
+/* ---------------- SEARCH ---------------- */
+#searchBar {
+  width: 350px;
+  padding: 12px;
+  font-size: 17px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  margin-bottom: 25px;
+  background: #222;
+  color: white;
+}
 
-  #closeBtn {
-    right: 20px;
-    background: white;
-    color: black;
-  }
+/* ---------------- GAME GRID ---------------- */
+#buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 25px;
+  padding: 20px;
+  max-width: 1300px;
+  margin: auto;
+}
 
-  #fullscreenBtn {
-    right: 140px;
-    background: #1e90ff;
-    color: white;
-  }
+.game-card {
+  text-align: center;
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
 
-  #blankBtn {
-    right: 260px;
-    background: #32cd32;
-    color: white;
-  }
+.game-card:hover {
+  transform: translateY(-5px);
+  background: #222;
+}
+
+.game-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.game-card img:hover {
+  transform: scale(1.05);
+}
+
+.game-card button {
+  width: 150px;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  background: #1e90ff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.game-card button:hover {
+  background: #0f6ed6;
+}
 </style>
 </head>
+
 <body>
 
-<!-- Search bar -->
-<div id="searchBarContainer">
-  <div id="searchLabel">tinymath</div>
-  <input id="searchInput" type="text" placeholder="Search buttons...">
+<!-- ---------------- SETTINGS BUTTON ---------------- -->
+<button class="settings-btn" onclick="toggleSettings()">⚙️ Settings</button>
+
+<!-- ---------------- SETTINGS PANEL ---------------- -->
+<div id="settingsPanel">
+  <h3>Settings</h3>
+
+  <label>Background Color:</label>
+  <input type="color" id="bgColorPicker" class="color-input">
+
+  <button class="theme-btn" onclick="setTheme('dark')">Dark Theme</button>
+  <button class="theme-btn" onclick="setTheme('light')">Light Theme</button>
+  <button class="theme-btn" onclick="setTheme('neon')">Neon Theme</button>
+  <button class="theme-btn" onclick="setTheme('amoled')">AMOLED Black</button>
 </div>
 
-<!-- Buttons -->
-<div class="button-row" id="buttonRow">
-
-  <div class="fetch-btn" data-url="https://raw.githubusercontent.com/Tinymath/v2/refs/heads/main/2048.html" data-name="2048">
-    <img src="https://th.bing.com/th/id/OIP.L_bQEFJ-kMEdVwIrRo2k7wHaHa?w=180&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3">
-    <div class="label">Cloverdust Page</div>
-  </div>
-
-  <!-- Add more buttons here -->
-
-</div>
-
-<!-- Overlay -->
-<div id="overlay">
-  <div id="closeBtn">Close</div>
-  <div id="fullscreenBtn">Fullscreen</div>
-  <div id="blankBtn">Open in Blank</div>
-  <div id="content"></div>
-</div>
+<!-- ---------------- MAIN CONTENT ---------------- -->
+<h1>Tinymath</h1>
+<input id="searchBar" type="text" placeholder="Search books...">
+<div id="buttons"></div>
 
 <script>
-const overlay = document.getElementById("overlay");
-const content = document.getElementById("content");
-const closeBtn = document.getElementById("closeBtn");
-const fullscreenBtn = document.getElementById("fullscreenBtn");
-const blankBtn = document.getElementById("blankBtn");
-const buttonRow = document.getElementById("buttonRow");
-const searchBar = document.getElementById("searchBarContainer");
+/* ---------------- SETTINGS ---------------- */
+function toggleSettings() {
+  const panel = document.getElementById("settingsPanel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
 
-let lastFetchedHTML = "";
-let lastURL = "";
-
-/* Fetch buttons */
-document.querySelectorAll(".fetch-btn").forEach(btn => {
-  btn.onclick = async () => {
-    overlay.style.display = "block";
-    content.innerHTML = "<p>Loading...</p>";
-
-    lastURL = btn.getAttribute("data-url");
-
-    try {
-      const response = await fetch(lastURL);
-      const html = await response.text();
-      lastFetchedHTML = html;
-      content.innerHTML = html;
-    } catch (err) {
-      content.innerHTML = "<p>Error loading content.</p>";
-    }
-  };
+document.getElementById("bgColorPicker").addEventListener("input", (e) => {
+  document.body.style.background = e.target.value;
 });
 
-/* Close overlay */
-closeBtn.onclick = () => {
-  overlay.style.display = "none";
-  content.innerHTML = "";
-};
-
-/* Fullscreen toggle */
-fullscreenBtn.onclick = () => {
-  if (!document.fullscreenElement) {
-    overlay.requestFullscreen();
-  } else {
-    document.exitFullscreen();
+function setTheme(theme) {
+  if (theme === "dark") {
+    document.body.style.background = "#0d0d0d";
+    document.body.style.color = "#fff";
   }
-};
+  if (theme === "light") {
+    document.body.style.background = "#f2f2f2";
+    document.body.style.color = "#000";
+  }
+  if (theme === "neon") {
+    document.body.style.background = "#0f002b";
+    document.body.style.color = "#39ff14";
+  }
+  if (theme === "amoled") {
+    document.body.style.background = "#000";
+    document.body.style.color = "#fff";
+  }
+}
 
-/* Open in about:blank */
-blankBtn.onclick = () => {
-  const win = window.open("about:blank", "_blank");
-  win.document.write(lastFetchedHTML || "<p>No content loaded yet.</p>");
-};
+/* ---------------- GAME SYSTEM ---------------- */
+const games = [];
 
-/* Hide ALL UI in fullscreen */
-document.addEventListener("fullscreenchange", () => {
-  const isFull = !!document.fullscreenElement;
+function add(name, url, img = null) {
+  games.push({ name, url, img });
 
-  buttonRow.style.display = isFull ? "none" : "grid";
-  searchBar.style.display = isFull ? "none" : "flex";
-  closeBtn.style.display = isFull ? "none" : "block";
-  fullscreenBtn.style.display = isFull ? "none" : "block";
-  blankBtn.style.display = isFull ? "none" : "block";
+  const card = document.createElement("div");
+  card.className = "game-card";
+  card.dataset.name = name.toLowerCase();
+
+  if (img) {
+    const image = document.createElement("img");
+    image.src = img;
+    image.onclick = () => loadGame(url);
+    card.appendChild(image);
+  }
+
+  const button = document.createElement("button");
+  button.textContent = name;
+  button.onclick = () => loadGame(url);
+  card.appendChild(button);
+
+  document.getElementById("buttons").appendChild(card);
+}
+
+/* ---------------- SEARCH ---------------- */
+document.getElementById("searchBar").addEventListener("input", function () {
+  const query = this.value.toLowerCase();
+  document.querySelectorAll(".game-card").forEach(card => {
+    card.style.display = card.dataset.name.includes(query) ? "block" : "none";
+  });
 });
 
-/* Live search filter */
-document.getElementById("searchInput").oninput = () => {
-  const query = document.getElementById("searchInput").value.toLowerCase();
+/* ---------------- LOAD GAME ---------------- */
+function loadGame(url) {
+  fetch(url)
+    .then(res => res.text())
+    .then(html => {
+      const css = `
+      <style>
+        body { font-family: inherit; margin: 0; }
+        .game-header {
+          width: 100%;
+          padding: 8px 0;
+          background: #222;
+          color: white;
+          font-size: 24px;
+          text-align: center;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 9999;
+        }
+        .fullscreen-btn, .exit-btn {
+          float: right;
+          margin-right: 20px;
+          padding: 8px 15px;
+          background: #1e90ff;
+          border: none;
+          border-radius: 5px;
+          color: white;
+          cursor: pointer;
+          margin-left: 10px;
+        }
+        :fullscreen .game-header { display: none; }
+      </style>`;
 
-  document.querySelectorAll(".fetch-btn").forEach(btn => {
-    const name = btn.getAttribute("data-name").toLowerCase();
-    btn.style.display = name.includes(query) ? "block" : "none";
-  });
-};
+      const header = `
+      <div class="game-header">
+        TinyMath
+        <button class="exit-btn" onclick="location.reload()">Exit</button>
+        <button class="fullscreen-btn" onclick="document.documentElement.requestFullscreen()">Fullscreen</button>
+      </div>
+      <div style="height:20px;"></div>`;
+
+      document.open();
+      document.write(css + header + html);
+      document.close();
+    });
+}
+
+/* ---------------- ADD GAMES ---------------- */
+add("1 on 1 soccer",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/1on1soccer.html",
+  "https://th.bing.com/th/id/OIP.o8k5W_b5ab9j2sJ0NfBlugAAAA?w=254&h=173&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+);
+
+add("3d tanks",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/3dtanks.html",
+  "https://th.bing.com/th?q=3D+Civil+War+Tank&w=120&h=120&c=1&rs=1&qlt=70&o=7&cb=1&dpr=1.3&pid=InlineBlock&rm=3&mkt=en-US&cc=US&setlang=en&adlt=strict&t=1&mw=247"
+);
+
+add("2048",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/2048.html",
+  "https://th.bing.com/th/id/OIP.L_bQEFJ-kMEdVwIrRo2k7wHaHa?w=108&h=108&c=1&bgcl=d0ecb0&r=0&o=7&dpr=1.3&pid=ImgRC&rm=3"
+);
+
+add("Abobos big adventure",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/abobosbigadventure.html",
+  "https://th.bing.com/th/id/OIP.Y1p-SW79Xpd1sefC_672CAAAAA?w=139&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+);
+
+add("Achievement unlocked 1",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/achievementunlocked.html",
+  "https://th.bing.com/th/id/OIP.lIUfIYjCuJEMirwT-Aia5QHaEc?w=240&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+);
+
+add("Achievement unlocked 2",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/achievementunlocked2.html",
+  "https://th.bing.com/th/id/OIP.lIUfIYjCuJEMirwT-Aia5QHaEc?w=240&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+);
+
+add("Achievement unlocked 3",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/achievementunlocked3.html",
+  "https://th.bing.com/th/id/OIP.lIUfIYjCuJEMirwT-Aia5QHaEc?w=240&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+);
+
+add("Action turnip",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/actionturnip.html",
+  "https://th.bing.com/th/id/OIP.OOf7pU6UKkcwHUH1szpjuAAAAA?w=135&h=140&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+);
+
+add("Adaran",
+  "https://cdn.jsdelivr.net/gh/Tinymath/v2/adaran.html",
+  "https://th.bing.com/th/id/OIP.PxWsnGKVi3KrApgMU_gaLgAAAA?w=143&h=150&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+);
 </script>
 
 </body>
