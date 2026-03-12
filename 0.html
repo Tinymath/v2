@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>tinymath</title>
 
-<link rel="icon" href="data:image/svg+xml,
+<link id="dynamicFavicon" rel="icon" href="data:image/svg+xml,
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
 <text y='.9em' font-size='90'>🎮</text></svg>">
 
@@ -13,7 +13,7 @@
 <style>
 /* ---------------- GLOBAL ---------------- */
 body {
-  background: #0d0d0d;
+  background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
   color: #fff;
   font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
@@ -23,54 +23,53 @@ body {
 }
 
 h1 {
-  margin: 25px 0 10px;
-  font-size: 40px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  margin: 30px 0 10px;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
 }
 
-/* ---------------- SETTINGS BUTTON (TOP RIGHT) ---------------- */
+/* ---------------- SETTINGS BUTTON ---------------- */
 .settings-btn {
   position: fixed;
   top: 15px;
   right: 15px;
-  padding: 10px 16px;
-  background: #444;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
   color: white;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
   z-index: 9999;
+  transition: 0.2s;
 }
 
 .settings-btn:hover {
-  background: #666;
+  background: rgba(255,255,255,0.2);
 }
 
 /* ---------------- SETTINGS PANEL ---------------- */
 #settingsPanel {
   position: fixed;
-  top: 60px;
+  top: 70px;
   right: 15px;
-  background: #1a1a1a;
+  background: rgba(20,20,20,0.7);
+  backdrop-filter: blur(12px);
   padding: 20px;
-  border-radius: 12px;
-  width: 240px;
+  border-radius: 14px;
+  width: 260px;
   display: none;
   z-index: 9999;
   color: white;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.15);
 }
 
 #settingsPanel h3 {
   margin-top: 0;
-  font-size: 20px;
-}
-
-.color-input {
-  width: 100%;
-  margin-top: 10px;
+  font-size: 22px;
 }
 
 .theme-btn {
@@ -78,34 +77,47 @@ h1 {
   padding: 10px;
   margin-top: 8px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  background: #333;
+  background: rgba(255,255,255,0.1);
   color: white;
+  transition: 0.2s;
 }
 
 .theme-btn:hover {
-  background: #555;
+  background: rgba(255,255,255,0.2);
+}
+
+.color-input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
 
 /* ---------------- SEARCH ---------------- */
 #searchBar {
-  width: 350px;
-  padding: 12px;
-  font-size: 17px;
-  border-radius: 8px;
+  width: 380px;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 12px;
   border: none;
   outline: none;
-  margin-bottom: 25px;
-  background: #222;
+  margin-bottom: 30px;
+  background: rgba(255,255,255,0.1);
   color: white;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
 /* ---------------- GAME GRID ---------------- */
 #buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 30px;
   padding: 20px;
   max-width: 1300px;
   margin: auto;
@@ -113,55 +125,63 @@ h1 {
 
 .game-card {
   text-align: center;
-  background: #1a1a1a;
-  padding: 15px;
-  border-radius: 12px;
-  transition: transform 0.2s ease, background 0.2s ease;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  padding: 18px;
+  border-radius: 16px;
+  transition: transform 0.25s ease, background 0.25s ease;
+  border: 1px solid rgba(255,255,255,0.15);
 }
 
 .game-card:hover {
-  transform: translateY(-5px);
-  background: #222;
+  transform: translateY(-7px);
+  background: rgba(255,255,255,0.15);
 }
 
 .game-card img {
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 14px;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
 }
 
 .game-card img:hover {
-  transform: scale(1.05);
+  transform: scale(1.07);
 }
 
+/* ---------------- BUTTONS ---------------- */
 .game-card button {
-  width: 150px;
-  padding: 10px;
-  margin-top: 10px;
-  font-size: 16px;
-  background: #1e90ff;
-  border: none;
-  border-radius: 6px;
-  color: white;
+  width: 160px;
+  padding: 12px;
+  margin-top: 12px;
+  font-size: 17px;
+  border-radius: 12px;
+  border: 2px solid #1e90ff;
+  background: rgba(30,144,255,0.15);
+  color: #1e90ff;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: 0.25s ease;
+  box-shadow: 0 0 10px rgba(30,144,255,0.4);
+  backdrop-filter: blur(6px);
 }
 
 .game-card button:hover {
-  background: #0f6ed6;
+  background: #1e90ff;
+  color: #000;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 18px rgba(30,144,255,0.8);
 }
 </style>
 </head>
 
 <body>
 
-<!-- ---------------- SETTINGS BUTTON ---------------- -->
-<button class="settings-btn" onclick="toggleSettings()">⚙️ Settings</button>
+<!-- SETTINGS BUTTON -->
+<button class="settings-btn" onclick="toggleSettings()">⚙️ </button>
 
-<!-- ---------------- SETTINGS PANEL ---------------- -->
+<!-- SETTINGS PANEL -->
 <div id="settingsPanel">
   <h3>Settings</h3>
 
@@ -172,24 +192,52 @@ h1 {
   <button class="theme-btn" onclick="setTheme('light')">Light Theme</button>
   <button class="theme-btn" onclick="setTheme('neon')">Neon Theme</button>
   <button class="theme-btn" onclick="setTheme('amoled')">AMOLED Black</button>
+
+  <hr style="margin:15px 0; border-color:rgba(255,255,255,0.2);">
+
+  <h3>Tab Cloaking</h3>
+
+  <label>Custom Title:</label>
+  <input type="text" id="titleInput" class="color-input" placeholder="Enter tab title">
+
+  <label>Custom Favicon URL:</label>
+  <input type="text" id="faviconInput" class="color-input" placeholder="Enter favicon URL">
+
+  <button class="theme-btn" onclick="applyCloak()">Apply Cloak</button>
+
+  <button class="theme-btn" onclick="cloakPreset('Google Docs', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png')">
+    Google Docs
+  </button>
+
+  <button class="theme-btn" onclick="cloakPreset('Google Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">
+    Google Classroom
+  </button>
+
+  <button class="theme-btn" onclick="cloakPreset('Calculator', 'https://www.google.com/favicon.ico')">
+    Calculator
+  </button>
+
+  <button class="theme-btn" onclick="resetCloak()">Reset Tab</button>
 </div>
 
-<!-- ---------------- MAIN CONTENT ---------------- -->
-<h1>Tinymath</h1>
+<!-- MAIN CONTENT -->
+<h1>tinymath</h1>
 <input id="searchBar" type="text" placeholder="Search books...">
 <div id="buttons"></div>
 
 <script>
-/* ---------------- SETTINGS ---------------- */
+/* SETTINGS PANEL */
 function toggleSettings() {
   const panel = document.getElementById("settingsPanel");
   panel.style.display = panel.style.display === "block" ? "none" : "block";
 }
 
+/* BACKGROUND COLOR PICKER */
 document.getElementById("bgColorPicker").addEventListener("input", (e) => {
   document.body.style.background = e.target.value;
 });
 
+/* THEMES */
 function setTheme(theme) {
   if (theme === "dark") {
     document.body.style.background = "#0d0d0d";
@@ -209,7 +257,27 @@ function setTheme(theme) {
   }
 }
 
-/* ---------------- GAME SYSTEM ---------------- */
+/* TAB CLOAKING */
+function applyCloak() {
+  const title = document.getElementById("titleInput").value;
+  const favicon = document.getElementById("faviconInput").value;
+
+  if (title) document.title = title;
+  if (favicon) document.getElementById("dynamicFavicon").href = favicon;
+}
+
+function cloakPreset(title, icon) {
+  document.title = title;
+  document.getElementById("dynamicFavicon").href = icon;
+}
+
+function resetCloak() {
+  document.title = "TinyMath";
+  document.getElementById("dynamicFavicon").href =
+    "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>";
+}
+
+/* GAME SYSTEM */
 const games = [];
 
 function add(name, url, img = null) {
@@ -234,7 +302,7 @@ function add(name, url, img = null) {
   document.getElementById("buttons").appendChild(card);
 }
 
-/* ---------------- SEARCH ---------------- */
+/* SEARCH */
 document.getElementById("searchBar").addEventListener("input", function () {
   const query = this.value.toLowerCase();
   document.querySelectorAll(".game-card").forEach(card => {
@@ -242,7 +310,7 @@ document.getElementById("searchBar").addEventListener("input", function () {
   });
 });
 
-/* ---------------- LOAD GAME ---------------- */
+/* LOAD GAME */
 function loadGame(url) {
   fetch(url)
     .then(res => res.text())
@@ -252,10 +320,10 @@ function loadGame(url) {
         body { font-family: inherit; margin: 0; }
         .game-header {
           width: 100%;
-          padding: 8px 0;
+          padding: 10px 0;
           background: #222;
           color: white;
-          font-size: 24px;
+          font-size: 26px;
           text-align: center;
           position: fixed;
           top: 0;
@@ -290,52 +358,30 @@ function loadGame(url) {
     });
 }
 
-/* ---------------- ADD GAMES ---------------- */
-add("1 on 1 soccer",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/1on1soccer.html",
-  "https://th.bing.com/th/id/OIP.o8k5W_b5ab9j2sJ0NfBlugAAAA?w=254&h=173&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-);
+/* ADD GAMES */
 
-add("3d tanks",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/3dtanks.html",
-  "https://th.bing.com/th?q=3D+Civil+War+Tank&w=120&h=120&c=1&rs=1&qlt=70&o=7&cb=1&dpr=1.3&pid=InlineBlock&rm=3&mkt=en-US&cc=US&setlang=en&adlt=strict&t=1&mw=247"
-);
-
-add("2048",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/2048.html",
-  "https://th.bing.com/th/id/OIP.L_bQEFJ-kMEdVwIrRo2k7wHaHa?w=108&h=108&c=1&bgcl=d0ecb0&r=0&o=7&dpr=1.3&pid=ImgRC&rm=3"
-);
-
-add("Abobos big adventure",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/abobosbigadventure.html",
-  "https://th.bing.com/th/id/OIP.Y1p-SW79Xpd1sefC_672CAAAAA?w=139&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-);
-
-add("Achievement unlocked 1",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/achievementunlocked.html",
-  "https://th.bing.com/th/id/OIP.lIUfIYjCuJEMirwT-Aia5QHaEc?w=240&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-);
-
-add("Achievement unlocked 2",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/achievementunlocked2.html",
-  "https://th.bing.com/th/id/OIP.lIUfIYjCuJEMirwT-Aia5QHaEc?w=240&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-);
-
-add("Achievement unlocked 3",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/achievementunlocked3.html",
-  "https://th.bing.com/th/id/OIP.lIUfIYjCuJEMirwT-Aia5QHaEc?w=240&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-);
-
-add("Action turnip",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/actionturnip.html",
-  "https://th.bing.com/th/id/OIP.OOf7pU6UKkcwHUH1szpjuAAAAA?w=135&h=140&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-);
-
-add("Adaran",
-  "https://cdn.jsdelivr.net/gh/Tinymath/v2/adaran.html",
-  "https://th.bing.com/th/id/OIP.PxWsnGKVi3KrApgMU_gaLgAAAA?w=143&h=150&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-);
 </script>
 
-</body>
+</body><script>
+const CDN_BASE = "https://cdn.jsdelivr.net/gh/Tinymath/v2/";
+const IMG_PATH = CDN_BASE + "images/png/";
+
+fetch("https://api.github.com/repos/Tinymath/v2/contents")
+  .then(res => res.json())
+  .then(files => {
+    files
+      .filter(f => f.name.endsWith(".html"))
+      .forEach(f => {
+        const fileName = f.name.replace(".html", "");
+        const gameName = fileName
+          .replace(/[-_]/g, " ")
+          .replace(/\b\w/g, c => c.toUpperCase());
+
+        // Use images/png folder
+        const img = IMG_PATH + fileName + ".png";
+
+        add(gameName, CDN_BASE + f.name, img);
+      });
+  });
+</script>
 </html>
